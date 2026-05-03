@@ -2,6 +2,7 @@
  *underStanding Two Pointer indepth (GOD LEVEL)
  */
 class TwoPointer {
+
     private validateNumber(array: any, target: any) {
         if (!Array.isArray(array) || typeof target !== "number" || Number.isNaN(target)) return false;
         else return true;
@@ -258,7 +259,6 @@ class TwoPointer {
         }
         return arr;
     }
-
     //TimeComplexcity BigO(n) spaceComplexcity BigO(1)
     moveZeroTwoPointer(arr: Array<number>) {
         if (!Array.isArray(arr) || array.every((el) => typeof el !== "number"))
@@ -312,8 +312,6 @@ class TwoPointer {
         }
         return arr;
     }
-
-
 
     //squareSortedArray Optimised Approach With Two Pointer
     //It will Only work on an Sorted Array
@@ -402,16 +400,97 @@ class TwoPointer {
     }
 
 
+    //TwoSumWithAllUniquePairsofTarget
+    twoSumWithAllUniquePairOfTarget(arr: Array<number>, target: number) {
+        if (!Array.isArray(arr) || arr.every((el) => typeof el !== "number")) {
+            throw new Error("Please Provide a correct input");
+        }
+        let i = 0, j = arr.length - 1;
+        let result: Array<number>[] = []
+        let sum: number;
+        while (i < j) {
+            sum = arr[i] + arr[j]
+            if (sum === target) {
+                result.push([arr[i], arr[j]])
+                i++;
+                j--;
+
+                for (let it = i; it < arr.length; it++) {
+                    if (arr[it - 1] === arr[it]) i++;
+                    else break;
+                }
+
+                for (let jt = j; jt >= 0; jt--) {
+                    if (arr[jt + 1] === arr[jt]) j++;
+                    else break;
+                }
+            }
+            else if (sum < target) i++;
+            else j--
+        }
+        if (result.length <= 0) return -1;
+        return result;
+    }
+
+    //ThreeSumThatEqualstoZero
+    //space complexcity :BigO(n**2)
+    threeSumZeroWithTwoPointer(arr: Array<number>) {
+        //sort an array
+        arr = arr.sort((a, b) => a - b)
+        let i = 0;
+        let result: Array<Array<number>> = []
+        let a, left, right;
+        while (i < arr.length - 2) {
+            if (i > 0 && arr[i - 1] === arr[i]) {
+                i++;
+            }
+            else {
+                a = (arr[i]) * -1;
+                left = i + 1;
+                right = arr.length - 1;
+                while (left < right) {
+                    let sum = arr[left] + arr[right];
+                    if (sum === a) {
+                        result.push([a * -1, arr[left], arr[right]])
+                        left++;
+                        right++;
+
+
+                        //increament the pointer if it contains any duplicatess
+                        for (let i = left; i < arr.length; i++) {
+                            if (arr[i - 1] === arr[i]) left++;
+                            else break;
+                        }
+
+                        //decrement second pointer if it contains any duplicates
+                        for (let j = right; j >= 0; j--) {
+                            if (arr[j + 1] === arr[j]) right--;
+                            else break;
+                        }
+                    }
+                    else if (sum < a) left++;
+                    else right--;
+                }
+                i++
+            }
+        }
+        return result;
+    }
+
+
+
+
+
 }
-
-
-
-
 let array = [2, 3, 4, 8, 16]; let target = 12;
 let arrOne = [1, 7, 5, 3], arrTwo = [8, 6, 2, 4, 10, 12]
 let arrayWithZero = [1, 0, 4, 5, 0, 3, 0, 8, 0, 9]
-let arrayWithDuplicates = [1, 1, 1, 1, 1, 1, 3, 3, 3, 4, 4, 4, 5, 5, 5, 2, 2, 2]
-const pointer = new TwoPointer()
-console.log(pointer.reverseAStrignWithTwoPointers("whatwillyouunderstandwiththis"))
+let arrayWithDuplicates = [1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8, 8, 8, 8]
 
+let findPairDuplicate = [1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5], targetTwo = 6;
+
+let findingThreeSum = [-2, 0, 1, 1, 2, -1, -4];
+
+const pointer = new TwoPointer()
+console.log(pointer.threeSumZeroWithTwoPointer(findingThreeSum))
 
